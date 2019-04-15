@@ -1,7 +1,8 @@
 // Add event listen on the Parent div
-document.querySelector('.keys').addEventListener('click', playSound);
+document.querySelector('.keys').addEventListener('click', playSoundClick);
+document.addEventListener('keyup', playSoundKey);
 
-function playSound(e) {
+function playSoundClick(e) {
     // Get all the audio files
     let audioFiles = document.querySelectorAll('audio');
 
@@ -21,5 +22,29 @@ function playSound(e) {
             }
         }
 
+    }
+}
+
+function playSoundKey(e) {
+    // Get all the audio files
+    let audioFiles = document.querySelectorAll('audio');
+    let keydiv = document.querySelectorAll('.key');
+
+    // add playing class to the touched key
+    for (let i = 0; i < keydiv.length; i++) {
+        if (e.keyCode == keydiv[i].dataset.key) {
+            keydiv[i].classList.toggle('playing');
+                // set a timeout for the playing class to be toggeled off
+            setTimeout(() => {
+                keydiv[i].classList.toggle('playing')
+            }, 500);
+        }
+    }
+
+    // loop through the audiofiles to find the sound of the touched key
+    for (let i = 0; i < audioFiles.length; i++) {
+        if (e.keyCode == audioFiles[i].dataset.key) {
+            audioFiles[i].play();
+        }
     }
 }
